@@ -50,6 +50,8 @@ function post(opt, callback) {
 
 
 function getJSON(opt, callback) {
+	opt.headers = opt.headers || {}
+	opt.headers['Accept'] = 'application/json'
 	request(opt, function(err, data, req) {
 		if (!err && data) {
 			data = JSON.parse(data)
