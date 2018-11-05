@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=GitHub Issues
-Comment=Lists the most recent issues for a GitHub repository.
+Name=BugZilla
+Comment=Lists the most recent issues for a BugZilla website.
 
 Type=Service
-Icon=octicon-mark-github.svg
+Icon=bug.svg
 X-KDE-ServiceTypes=Plasma/Applet
 
 X-Plasma-API=declarativeappletscript
@@ -11,7 +11,7 @@ X-Plasma-MainScript=ui/Main.qml
 
 X-KDE-PluginInfo-Author=Chris Holland
 X-KDE-PluginInfo-Email=zrenfire@gmail.com
-X-KDE-PluginInfo-Name=com.github.zren.githubissues
+X-KDE-PluginInfo-Name=com.github.zren.bugzilla
 X-KDE-PluginInfo-Version=2
-X-KDE-PluginInfo-Website=https://github.com/Zren/plasma-applet-githubissues
+X-KDE-PluginInfo-Website=https://github.com/Zren/plasma-applet-bugzilla
 X-KDE-PluginInfo-Category=Online Services

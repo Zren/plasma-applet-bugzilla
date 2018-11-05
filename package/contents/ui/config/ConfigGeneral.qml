@@ -6,8 +6,8 @@ import org.kde.kirigami 2.5 as Kirigami
 import "../lib"
 
 ColumnLayout {
-	property alias cfg_user: userTextField.text
-	property alias cfg_repo: repoTextField.text
+	property alias cfg_domain: domainTextField.text
+	property alias cfg_product: productTextField.text
 	property alias cfg_updateIntervalInMinutes: updateIntervalInMinutesSpinBox.value
 
 	ColumnLayout {
@@ -18,14 +18,14 @@ ColumnLayout {
 			wideMode: true
 
 			TextField {
-				id: userTextField
-				Kirigami.FormData.label: i18n("User:")
+				id: domainTextField
+				Kirigami.FormData.label: i18n("Domain:")
 				Layout.fillWidth: true
 			}
 
 			TextField {
-				id: repoTextField
-				Kirigami.FormData.label: i18n("Repo:")
+				id: productTextField
+				Kirigami.FormData.label: i18n("Project:")
 				Layout.fillWidth: true
 			}
 

@@ -18,13 +18,13 @@ Item {
 
 	ColumnLayout {
 		anchors.fill: parent
-		visible: widget.hasRepo
+		visible: widget.hasProduct
 
 		PlasmaComponents.Label {
 			id: heading
 			Layout.fillWidth: true
 			visible: plasmoid.configuration.showHeading
-			text: plasmoid.configuration.user + ' / ' + plasmoid.configuration.repo
+			text: plasmoid.configuration.product
 			font.weight: Font.Bold
 			font.pixelSize: 24
 			elide: Text.ElideRight
@@ -46,6 +46,13 @@ Item {
 					width: listView.width
 						
 					property var issue: modelData
+					readonly property bool issueClosed: {
+						return issue.status == 'RESOLVED' || issue.status == 'CLOSED'
+					}
+					readonly property bool issueOpen: !issueClosed
+					readonly property string issueHtmlLink: 'https://' + plasmoid.configuration.domain + '/show_bug.cgi?id=' + issue.id
+					readonly property int issueCommentCount: issue.comment_count || 0
+					readonly property string issueCreatorName: issue.creator_detail.real_name || issue.creator_detail.name
 
 					Rectangle {
 						visible: (heading.visible && index == 0) || index > 0
@@ -70,41 +77,41 @@ Item {
 							id: issueTitleIcon
 							
 							text: {
-								if (issue.pull_request) {
-									if (issue.state == 'open') {
-										return octicons.gitPullRequest
-									} else { // 'closed'
-										// Note, there's currently no way to tell if a pull request was merged
-										// or if it was closed. To find that out, we'd need to query 
-										// the pull request api endpoint as well.
-										if (true) { // issue.merged
-											return octicons.gitMerge
-										} else {
-											return octicons.gitPullRequest
-										}
-									}
-								} else {
-									if (issue.state == 'open') {
+								// if (issue.pull_request) {
+								// 	if (issue.state == 'open') {
+								// 		return octicons.gitPullRequest
+								// 	} else { // 'closed'
+								// 		// Note, there's currently no way to tell if a pull request was merged
+								// 		// or if it was closed. To find that out, we'd need to query 
+								// 		// the pull request api endpoint as well.
+								// 		if (true) { // issue.merged
+								// 			return octicons.gitMerge
+								// 		} else {
+								// 			return octicons.gitPullRequest
+								// 		}
+								// 	}
+								// } else {
+									if (issueOpen) {
 										return octicons.issueOpened
-									} else { // 'closed'
+									} else {
 										return octicons.issueClosed
 									}
-								}
+								// }
 							}
 							color: {
-								if (issue.state == 'open') {
+								if (issueOpen) {
 									return '#28a745'
 								} else { // 'closed'
-									if (issue.pull_request) {
-										// Note: Assume it was merged
-										if (true) { // issue.merged
-											return '#6f42c1'
-										} else {
-											return '#cb2431'
-										}
-									} else {
+									// if (issue.pull_request) {
+									// 	// Note: Assume it was merged
+									// 	if (true) { // issue.merged
+									// 		return '#6f42c1'
+									// 	} else {
+									// 		return '#cb2431'
+									// 	}
+									// } else {
 										return '#cb2431'
-									}
+									// }
 								}
 							}
 							font.family: "fontello"
@@ -123,10 +130,10 @@ Item {
 								id: issueTitleLabel
 
 								Layout.fillWidth: true
-								text: issue.title
+								text: issue.summary
 								font.weight: Font.Bold
 
-								onClicked: Qt.openUrlExternally(issue.html_url)
+								onClicked: Qt.openUrlExternally(issueHtmlLink)
 							}
 							TextLabel {
 								id: timestampText
@@ -139,10 +146,10 @@ Item {
 
 								text: ""
 								property var dateTime: {
-									if (issue.state == 'open') { // '#19 opened 7 days ago by RustyRaptor'
-										return issue.created_at
+									if (issueOpen) { // '#19 opened 7 days ago by RustyRaptor'
+										return issue.creation_time
 									} else { // 'closed'   #14 by JPRuehmann was closed on 5 Jul 
-										return issue.closed_at
+										return issue.last_change_time
 									}
 								}
 								property string dateTimeText: ""
@@ -159,14 +166,14 @@ Item {
 
 								function updateText() {
 									updateRelativeDate()
-									if (issue.state == 'open') { // '#19 opened 7 days ago by RustyRaptor'
-										text = i18n("#%1 opened %2 by %3", issue.number, dateTimeText, issue.user.login)
+									if (issueOpen) { // '#19 opened 7 days ago by RustyRaptor'
+										text = i18n("#%1 opened %2 by %3", issue.id, dateTimeText, issueCreatorName)
 									} else { // 'closed'   #14 by JPRuehmann was closed on 5 Jul
-										if (issue.pull_request && true) { // Assume issue.merged=true
-											text = i18n("#%1 by %3 was merged %2", issue.number, dateTimeText, issue.user.login)
-										} else {
-											text = i18n("#%1 by %3 was closed %2", issue.number, dateTimeText, issue.user.login)
-										}
+										// if (issue.pull_request && true) { // Assume issue.merged=true
+										// 	text = i18n("#%1 by %3 was merged %2", issue.id, dateTimeText, issueCreatorName)
+										// } else {
+											text = i18n("#%1 by %3 was closed %2", issue.id, dateTimeText, issueCreatorName)
+										// }
 									}
 								}
 							}
@@ -177,12 +184,14 @@ Item {
 							Layout.alignment: Qt.AlignTop
 							implicitWidth: commentButtonRow.implicitWidth
 							implicitHeight: commentButtonRow.implicitHeight
+
+							visible: typeof issue.comment_count !== "undefined"
 							
 							hoverEnabled: true
 							cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 							property color textColor: containsMouse ? PlasmaCore.ColorScope.highlightColor : PlasmaCore.ColorScope.textColor
 
-							onClicked: Qt.openUrlExternally(issue.html_url)
+							onClicked: Qt.openUrlExternally(issueHtmlLink)
 
 							RowLayout {
 								id: commentButtonRow
@@ -200,7 +209,7 @@ Item {
 								}
 
 								TextLabel {
-									text: " " + issue.comments
+									text: " " + (commentButton.visible ? issue.comment_count : 0)
 									
 									color: commentButton.textColor
 									font.family: "Helvetica"
@@ -222,7 +231,7 @@ Item {
 
 	PlasmaComponents.Button {
 		anchors.centerIn: parent
-		visible: !widget.hasRepo
+		visible: !widget.hasProduct
 		text: plasmoid.action("configure").text
 		onClicked: plasmoid.action("configure").trigger()
 	}

@@ -12,18 +12,27 @@ Item {
 
 	Logger {
 		id: logger
-		name: 'githubissues'
-		// showDebug: true
+		name: 'bugzilla'
+		showDebug: true
 	}
 
-	Plasmoid.icon: plasmoid.file("", "icons/octicon-mark-github.svg")
+	Plasmoid.icon: plasmoid.file("", "icons/bug.svg")
 	Plasmoid.backgroundHints: plasmoid.configuration.showBackground ? PlasmaCore.Types.DefaultBackground : PlasmaCore.Types.NoBackground
 	Plasmoid.hideOnWindowDeactivate: !plasmoid.userConfiguring
 
-	readonly property bool hasRepo: plasmoid.configuration.user && plasmoid.configuration.repo
-	readonly property string repoString: plasmoid.configuration.user + '/' + plasmoid.configuration.repo
+	readonly property bool hasProduct: plasmoid.configuration.domain && plasmoid.configuration.product
 	readonly property string issueState: plasmoid.configuration.issueState
-	readonly property string issuesUrl: 'https://api.github.com/repos/' + repoString + '/issues?state=' + issueState
+	readonly property string issuesUrl: {
+		var url = 'https://' + plasmoid.configuration.domain + '/rest/bug'
+		url += '?product=' + plasmoid.configuration.product
+		url += '&limit=25&order=bug_id%20DESC'
+		if (issueState == 'open') {
+			url += '&bug_status=REPORTED&bug_status=CONFIRMED&bug_status=ASSIGNED&bug_status=REOPENED&bug_status=NEEDSINFO&bug_status=VERIFIED'
+		} else if (issueState == 'closed') {
+			url += '&bug_status=CLOSED&bug_status=RESOLVED'
+		}
+		return url
+	}
 
 	property var issuesModel: []
 
@@ -32,13 +41,13 @@ Item {
 	Plasmoid.fullRepresentation: FullRepresentation {}
 
 	function updateIssuesModel() {
-		if (widget.hasRepo) {
+		if (widget.hasProduct) {
 			Requests.getJSON({
 				url: issuesUrl
 			}, function(err, data, xhr){
 				logger.debug(err)
 				logger.debugJSON(data)
-				widget.issuesModel = data
+				widget.issuesModel = data.bugs
 			})
 		} else {
 			widget.issuesModel = []
@@ -65,8 +74,8 @@ Item {
 
 	Connections {
 		target: plasmoid.configuration
-		onUserChanged: debouncedUpdateIssuesModel.restart()
-		onRepoChanged: debouncedUpdateIssuesModel.restart()
+		onDomainChanged: debouncedUpdateIssuesModel.restart()
+		onProductChanged: debouncedUpdateIssuesModel.restart()
 		onIssueStateChanged: debouncedUpdateIssuesModel.restart()
 	}
 

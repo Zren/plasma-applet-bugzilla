@@ -6,11 +6,11 @@
   <kcfgfile name=""/>
 
   <group name="General">
-    <entry name="user" type="string">
-      <default></default>
+    <entry name="domain" type="string">
+      <default>bugs.kde.org</default>
     </entry>
-    <entry name="repo" type="string">
-      <default></default>
+    <entry name="product" type="string">
+      <default>plasmashell</default>
     </entry>
     <entry name="updateIntervalInMinutes" type="int">
       <default>60</default>
