@@ -22,8 +22,14 @@ IssueListView {
 		issueSummary: issue.summary
 		tagBefore: issue.product
 		issueHtmlLink: 'https://' + plasmoid.configuration.domain + '/show_bug.cgi?id=' + issue.id
-		showNumComments: typeof issue.comment_count !== "undefined" && numComments > 0
-		numComments: issue.comment_count || 0
+
+		// As of writing, KDE's bugzilla v5.0.4 does respond with comment_count,
+		// while Mozilla's bugzilla does.
+		property bool supportsComments: typeof issue.comment_count !== "undefined"
+		// Note: The "reporter comment" is included in the total,
+		// so we subtract by 1 to get the number of responses.
+		showNumComments: supportsComments && numComments > 0
+		numComments: supportsComments ? (issue.comment_count - 1) : 0
 
 		dateTime: {
 			if (issueOpen) {
