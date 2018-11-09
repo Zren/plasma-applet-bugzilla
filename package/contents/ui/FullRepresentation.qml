@@ -22,7 +22,7 @@ IssueListView {
 		issueSummary: issue.summary
 		tagBefore: issue.product
 		issueHtmlLink: 'https://' + plasmoid.configuration.domain + '/show_bug.cgi?id=' + issue.id
-		showNumComments: typeof issue.comment_count !== "undefined"
+		showNumComments: typeof issue.comment_count !== "undefined" && numComments > 0
 		numComments: issue.comment_count || 0
 
 		dateTime: {
