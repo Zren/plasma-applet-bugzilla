@@ -32,6 +32,7 @@ Item {
 
 			PlasmaCore.ToolTipArea {
 				anchors.fill: parent
+				enabled: parent.truncated
 				subText: parent.text
 			}
 		}
