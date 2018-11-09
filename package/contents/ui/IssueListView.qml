@@ -67,7 +67,7 @@ Item {
 
 	PlasmaComponents.Button {
 		anchors.centerIn: parent
-		visible: !widget.hasProduct
+		visible: !issueListView.isSetup
 		text: plasmoid.action("configure").text
 		onClicked: plasmoid.action("configure").trigger()
 	}
