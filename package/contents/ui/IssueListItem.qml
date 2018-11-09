@@ -18,6 +18,8 @@ ColumnLayout {
 	readonly property var issue: modelData
 
 	property string issueSummary: ''
+	property string issueId: '123'
+	property string issueIdStr: '#' + issueId
 	property bool issueOpen: true
 	property string issueHtmlLink: 'https://www.google.com'
 	property bool showNumComments: numComments > 0
@@ -159,12 +161,12 @@ ColumnLayout {
 					var s = issueListItem.issueState
 					if (s == 'opened' || s == 'openPullRequest') {
 						// '#19 opened 7 days ago by RustyRaptor'
-						text = i18n("#%1 opened %2 by %3", issue.id, dateTimeText, issueCreatorName)
+						text = i18n("%1 opened %2 by %3", issueListItem.issueIdStr, dateTimeText, issueListItem.issueCreatorName)
 					} else if (s == 'closed' || s == 'closedPullRequest') {
 						// '#14 by JPRuehmann was closed on 5 Jul'
-						text = i18n("#%1 by %3 was closed %2", issue.id, dateTimeText, issueCreatorName)
+						text = i18n("%1 by %3 was closed %2", issueListItem.issueIdStr, dateTimeText, issueListItem.issueCreatorName)
 					} else if (s == 'merged') {
-						text = i18n("#%1 by %3 was merged %2", issue.id, dateTimeText, issueCreatorName)
+						text = i18n("%1 by %3 was merged %2", issueListItem.issueIdStr, dateTimeText, issueListItem.issueCreatorName)
 					} else { // ?!
 						text = ''
 					}

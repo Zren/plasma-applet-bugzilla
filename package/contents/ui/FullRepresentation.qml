@@ -19,6 +19,7 @@ IssueListView {
 			return issue.status == 'RESOLVED' || issue.status == 'CLOSED'
 		}
 		issueOpen: !issueClosed
+		issueId: issue.id
 		issueSummary: issue.summary
 		tagBefore: issue.product
 		issueCreatorName: issue.creator_detail.real_name || issue.creator_detail.name
