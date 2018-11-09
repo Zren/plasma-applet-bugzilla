@@ -31,7 +31,7 @@ Item {
 		}
 		url += '&limit=25&order=bug_id%20DESC'
 		if (issueState == 'open') {
-			url += '&bug_status=REPORTED&bug_status=CONFIRMED&bug_status=ASSIGNED&bug_status=REOPENED&bug_status=NEEDSINFO&bug_status=VERIFIED'
+			url += '&bug_status=UNCONFIRMED&bug_status=CONFIRMED&bug_status=ASSIGNED&bug_status=REOPENED&bug_status=NEEDSINFO&bug_status=VERIFIED'
 		} else if (issueState == 'closed') {
 			url += '&bug_status=CLOSED&bug_status=RESOLVED'
 		}
