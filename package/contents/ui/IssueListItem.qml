@@ -12,15 +12,23 @@ ColumnLayout {
 
 	spacing: 0
 	width: listView.width
-		
-	property var issue: modelData
+
+	readonly property var issue: modelData
+
+	property string issueSummary: ''
 	property bool issueOpen: true
 	property string issueHtmlLink: 'https://www.google.com'
 	property bool showNumComments: true
 	property int numComments: 0
 	property string issueCreatorName: issue.creator_detail.real_name || issue.creator_detail.name
+	
+	// ['opened', 'closed', 'openPullRequest', 'closedPullRequest', 'merged']
+	property string issueState: 'opened'
 
 	property alias dateTime: timestampText.dateTime
+	property alias tagBefore: productTag.text
+	property alias tagBeforeTextColor: productTag.textColor
+	property alias tagBeforeBackgroundColor: productTag.backgroundColor
 
 	Rectangle {
 		visible: (heading.visible && index == 0) || index > 0
@@ -45,41 +53,29 @@ ColumnLayout {
 			id: issueTitleIcon
 			
 			text: {
-				// if (issue.pull_request) {
-				// 	if (issue.state == 'open') {
-				// 		return octicons.gitPullRequest
-				// 	} else { // 'closed'
-				// 		// Note, there's currently no way to tell if a pull request was merged
-				// 		// or if it was closed. To find that out, we'd need to query 
-				// 		// the pull request api endpoint as well.
-				// 		if (true) { // issue.merged
-				// 			return octicons.gitMerge
-				// 		} else {
-				// 			return octicons.gitPullRequest
-				// 		}
-				// 	}
-				// } else {
-					if (issueOpen) {
-						return octicons.issueOpened
-					} else {
-						return octicons.issueClosed
-					}
-				// }
+				var s = issueListItem.issueState
+				if (s == 'opened') {
+					return octicons.issueOpened
+				} else if (s == 'closed') {
+					return octicons.issueClosed
+				} else if (s == 'openPullRequest' || s == 'closedPullRequest') {
+					return octicons.gitPullRequest
+				} else if (s == 'merged') {
+					return octicons.gitMerge
+				} else { // ?!
+					return ''
+				}
 			}
 			color: {
-				if (issueOpen) {
+				var s = issueListItem.issueState
+				if (s == 'opened' || s == 'openPullRequest') {
 					return '#28a745'
-				} else { // 'closed'
-					// if (issue.pull_request) {
-					// 	// Note: Assume it was merged
-					// 	if (true) { // issue.merged
-					// 		return '#6f42c1'
-					// 	} else {
-					// 		return '#cb2431'
-					// 	}
-					// } else {
-						return '#cb2431'
-					// }
+				} else if (s == 'closed' || s == 'closedPullRequest') {
+					return '#cb2431'
+				} else if (s == 'merged') {
+					return '#6f42c1'
+				} else { // ?!
+					return ''
 				}
 			}
 			font.family: "fontello"
@@ -98,13 +94,13 @@ ColumnLayout {
 				id: issueTitleLabel
 
 				Layout.fillWidth: true
-				text: issue.summary
+				text: issueListItem.issueSummary
 				font.weight: Font.Bold
 
-				onClicked: Qt.openUrlExternally(issueHtmlLink)
+				onClicked: Qt.openUrlExternally(issueListItem.issueHtmlLink)
 
 				onLineLaidOut: {
-					if (line.number == 0) {
+					if (line.number == 0 && productTag.visible) {
 						var indent = productTag.width + productTag.rightMargin
 						line.x += indent
 						line.width -= indent
@@ -113,7 +109,7 @@ ColumnLayout {
 
 				TextTag {
 					id: productTag
-					text: issue.product
+					visible: text
 
 					function alpha(c, a) {
 						return Qt.rgba(c.r, c.g, c.b, a)
@@ -155,14 +151,18 @@ ColumnLayout {
 
 				function updateText() {
 					updateRelativeDate()
-					if (issueListItem.issueOpen) { // '#19 opened 7 days ago by RustyRaptor'
+
+					var s = issueListItem.issueState
+					if (s == 'opened' || s == 'openPullRequest') {
+						// '#19 opened 7 days ago by RustyRaptor'
 						text = i18n("#%1 opened %2 by %3", issue.id, dateTimeText, issueCreatorName)
-					} else { // 'closed'   #14 by JPRuehmann was closed on 5 Jul
-						// if (issue.pull_request && true) { // Assume issue.merged=true
-						// 	text = i18n("#%1 by %3 was merged %2", issue.id, dateTimeText, issueCreatorName)
-						// } else {
-							text = i18n("#%1 by %3 was closed %2", issue.id, dateTimeText, issueCreatorName)
-						// }
+					} else if (s == 'closed' || s == 'closedPullRequest') {
+						// '#14 by JPRuehmann was closed on 5 Jul'
+						text = i18n("#%1 by %3 was closed %2", issue.id, dateTimeText, issueCreatorName)
+					} else if (s == 'merged') {
+						text = i18n("#%1 by %3 was merged %2", issue.id, dateTimeText, issueCreatorName)
+					} else { // ?!
+						text = ''
 					}
 				}
 			}

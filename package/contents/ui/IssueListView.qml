@@ -20,6 +20,8 @@ Item {
 
 	property alias scrollView: scrollView
 	property alias listView: listView
+	property alias heading: heading
+	property alias relativeDateTimer: relativeDateTimer
 
 	Layout.minimumWidth: 300 * units.devicePixelRatio
 	Layout.minimumHeight: 200 * units.devicePixelRatio
