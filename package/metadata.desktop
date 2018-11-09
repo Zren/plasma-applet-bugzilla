@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=BugZilla
-Comment=Lists the most recent issues for a BugZilla website.
+Name=Bugzilla
+Comment=Lists the most recent issues for a Bugzilla website.
 
 Type=Service
 Icon=bug.svg

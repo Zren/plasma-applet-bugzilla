@@ -1,6 +1,6 @@
-# BugZilla Widget
+# Bugzilla Widget
 
-A plasma widget that shows a list of bugs from a BugZilla website.
+A plasma widget that shows a list of bugs from a Bugzilla website.
 
 ## Screenshots
 
