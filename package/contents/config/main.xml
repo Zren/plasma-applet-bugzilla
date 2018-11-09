@@ -9,8 +9,8 @@
     <entry name="domain" type="string">
       <default>bugs.kde.org</default>
     </entry>
-    <entry name="product" type="string">
-      <default>plasmashell</default>
+    <entry name="productList" type="stringlist">
+      <default>plasmashell,kdeplasma-addons,plasma-nm,plasma-pa,Plasma Vault,frameworks-plasma,plasma-browser-integration,plasma-integration,Active Window Control</default>
     </entry>
     <entry name="updateIntervalInMinutes" type="int">
       <default>60</default>

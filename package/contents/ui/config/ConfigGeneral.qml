@@ -7,7 +7,6 @@ import "../lib"
 
 ColumnLayout {
 	property alias cfg_domain: domainTextField.text
-	property alias cfg_product: productTextField.text
 	property alias cfg_updateIntervalInMinutes: updateIntervalInMinutesSpinBox.value
 
 	ColumnLayout {
@@ -23,9 +22,10 @@ ColumnLayout {
 				Layout.fillWidth: true
 			}
 
-			TextField {
+			ConfigStringList {
 				id: productTextField
 				Kirigami.FormData.label: i18n("Project:")
+				configKey: 'productList'
 				Layout.fillWidth: true
 			}
 

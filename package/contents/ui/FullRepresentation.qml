@@ -24,11 +24,16 @@ Item {
 			id: heading
 			Layout.fillWidth: true
 			visible: plasmoid.configuration.showHeading
-			text: plasmoid.configuration.product
+			text: plasmoid.configuration.productList.join(', ')
 			font.weight: Font.Bold
 			font.pixelSize: 24
 			elide: Text.ElideRight
 			wrapMode: Text.NoWrap
+
+			PlasmaCore.ToolTipArea {
+				anchors.fill: parent
+				subText: parent.text
+			}
 		}
 
 		ScrollView {

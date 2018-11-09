@@ -20,11 +20,15 @@ Item {
 	Plasmoid.backgroundHints: plasmoid.configuration.showBackground ? PlasmaCore.Types.DefaultBackground : PlasmaCore.Types.NoBackground
 	Plasmoid.hideOnWindowDeactivate: !plasmoid.userConfiguring
 
-	readonly property bool hasProduct: plasmoid.configuration.domain && plasmoid.configuration.product
+	readonly property bool hasProduct: plasmoid.configuration.domain && plasmoid.configuration.productList
 	readonly property string issueState: plasmoid.configuration.issueState
 	readonly property string issuesUrl: {
 		var url = 'https://' + plasmoid.configuration.domain + '/rest/bug'
-		url += '?product=' + plasmoid.configuration.product
+		var productList = plasmoid.configuration.productList
+		for (var i = 0; i < productList.length; i++) {
+			url += i == 0 ? '?' : '&'
+			url += 'product=' + encodeURIComponent(productList[i])
+		}
 		url += '&limit=25&order=bug_id%20DESC'
 		if (issueState == 'open') {
 			url += '&bug_status=REPORTED&bug_status=CONFIRMED&bug_status=ASSIGNED&bug_status=REOPENED&bug_status=NEEDSINFO&bug_status=VERIFIED'
