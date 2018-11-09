@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.9
 import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.1
 import org.kde.plasma.core 2.0 as PlasmaCore
@@ -110,6 +110,8 @@ ColumnLayout {
 				TextTag {
 					id: productTag
 					visible: text
+
+					onVisibleChanged: issueTitleLabel.forceLayout()
 
 					function alpha(c, a) {
 						return Qt.rgba(c.r, c.g, c.b, a)
