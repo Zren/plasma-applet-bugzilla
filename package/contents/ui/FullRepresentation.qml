@@ -38,5 +38,13 @@ IssueListView {
 				return issue.last_change_time
 			}
 		}
+
+		issueState: {
+			if (issueOpen) {
+				return 'opened'
+			} else { // Closed
+				return 'closed'
+			}
+		}
 	}
 }
