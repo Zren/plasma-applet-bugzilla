@@ -46,6 +46,7 @@ Item {
 
 	function updateIssuesModel() {
 		if (widget.hasProduct) {
+			logger.debug('issuesUrl', issuesUrl)
 			Requests.getJSON({
 				url: issuesUrl
 			}, function(err, data, xhr){
