@@ -22,7 +22,7 @@ ColumnLayout {
 	property string issueHtmlLink: 'https://www.google.com'
 	property bool showNumComments: numComments > 0
 	property int numComments: 0
-	property string issueCreatorName: issue.creator_detail.real_name || issue.creator_detail.name
+	property string issueCreatorName: "Submitter"
 	
 	// ['opened', 'closed', 'openPullRequest', 'closedPullRequest', 'merged']
 	property string issueState: 'opened'

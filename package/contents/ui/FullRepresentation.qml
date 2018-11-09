@@ -21,6 +21,7 @@ IssueListView {
 		issueOpen: !issueClosed
 		issueSummary: issue.summary
 		tagBefore: issue.product
+		issueCreatorName: issue.creator_detail.real_name || issue.creator_detail.name
 		issueHtmlLink: 'https://' + plasmoid.configuration.domain + '/show_bug.cgi?id=' + issue.id
 
 		// As of writing, KDE's bugzilla v5.0.4 does respond with comment_count,
