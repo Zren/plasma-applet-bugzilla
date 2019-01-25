@@ -1,14 +1,14 @@
-# Translation of githubissues in LANGUAGE
-# Copyright (C) 2018
-# This file is distributed under the same license as the githubissues package.
+# Translation of bugzilla in LANGUAGE
+# Copyright (C) 2019
+# This file is distributed under the same license as the bugzilla package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: githubissues \n"
-"Report-Msgid-Bugs-To: https://github.com/Zren/plasma-applet-githubissues\n"
-"POT-Creation-Date: 2018-10-28 16:09-0400\n"
+"Project-Id-Version: bugzilla \n"
+"Report-Msgid-Bugs-To: https://github.com/Zren/plasma-applet-bugzilla\n"
+"POT-Creation-Date: 2019-01-25 13:14-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,12 +22,12 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: ../contents/ui/config/ConfigGeneral.qml:22
-msgid "User:"
+#: ../contents/ui/config/ConfigGeneral.qml:21
+msgid "Domain:"
 msgstr ""
 
-#: ../contents/ui/config/ConfigGeneral.qml:28
-msgid "Repo:"
+#: ../contents/ui/config/ConfigGeneral.qml:27
+msgid "Project:"
 msgstr ""
 
 #: ../contents/ui/config/ConfigGeneral.qml:33
@@ -50,6 +50,11 @@ msgstr ""
 msgid "Update Every:"
 msgstr ""
 
+#: ../contents/ui/config/ConfigGeneral.qml:48
+msgctxt "Polling interval in minutes"
+msgid "min"
+msgstr ""
+
 #: ../contents/ui/config/ConfigGeneral.qml:53
 msgid "Show Heading"
 msgstr ""
@@ -58,16 +63,16 @@ msgstr ""
 msgid "Desktop Widget: Show background"
 msgstr ""
 
-#: ../contents/ui/FullRepresentation.qml:163
-msgid "#%1 opened %2 by %3"
+#: ../contents/ui/IssueListItem.qml:164
+msgid "%1 opened %2 by %3"
 msgstr ""
 
-#: ../contents/ui/FullRepresentation.qml:166
-msgid "#%1 by %3 was merged %2"
+#: ../contents/ui/IssueListItem.qml:167
+msgid "%1 by %3 was closed %2"
 msgstr ""
 
-#: ../contents/ui/FullRepresentation.qml:168
-msgid "#%1 by %3 was closed %2"
+#: ../contents/ui/IssueListItem.qml:169
+msgid "%1 by %3 was merged %2"
 msgstr ""
 
 #: ../contents/ui/lib/TimeUtils.js:22
@@ -104,6 +109,6 @@ msgid_plural "%1 years ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../contents/ui/Main.qml:78
+#: ../contents/ui/Main.qml:92
 msgid "Refresh"
 msgstr ""
