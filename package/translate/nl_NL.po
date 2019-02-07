@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: githubissues\n"
 "Report-Msgid-Bugs-To: https://github.com/Zren/plasma-applet-bugzilla\n"
 "POT-Creation-Date: 2019-01-25 13:14-0500\n"
-"PO-Revision-Date: 2019-01-25 17:04+0100\n"
+"PO-Revision-Date: 2019-02-07 21:47+0100\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <vistausss@outlook.com>\n"
 "Language: nl_NL\n"
@@ -24,11 +24,11 @@ msgstr "Algemeen"
 
 #: ../contents/ui/config/ConfigGeneral.qml:21
 msgid "Domain:"
-msgstr ""
+msgstr "Domein:"
 
 #: ../contents/ui/config/ConfigGeneral.qml:27
 msgid "Project:"
-msgstr ""
+msgstr "Project:"
 
 #: ../contents/ui/config/ConfigGeneral.qml:33
 msgid "Issues:"
@@ -53,11 +53,11 @@ msgstr "Bijwerken, elke:"
 #: ../contents/ui/config/ConfigGeneral.qml:48
 msgctxt "Polling interval in minutes"
 msgid "min"
-msgstr ""
+msgstr "min"
 
 #: ../contents/ui/config/ConfigGeneral.qml:53
 msgid "Show Heading"
-msgstr "Kop tonen"
+msgstr "Koptekst tonen"
 
 #: ../contents/ui/config/ConfigGeneral.qml:58
 msgid "Desktop Widget: Show background"
